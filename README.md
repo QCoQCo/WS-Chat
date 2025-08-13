@@ -22,10 +22,10 @@ npm install
 ```bash
 npm run dev:all
 
-npm run dev -- --port 5174
+npm run dev -- --port 포트번호
 ```
   - 프론트엔드: `http://localhost:5173`
-  - 테스트용 프론트 임의로 설정가능
+  - 테스트용 포트 임의로 설정가능
   - WebSocket 서버: `ws://localhost:3001`
 
 - **각각 실행**:
