@@ -29,9 +29,9 @@ function App() {
   }
 
   return (
-    <div className='App' style={{ maxWidth: 720, margin: '0 auto', padding: 16 }}>
+    <div className='App app-container'>
       <h2>WS Chat</h2>
-      <div style={{ marginBottom: 8 }}>
+      <div className='status'>
         Status: <strong>{isConnected ? 'Connected' : 'Disconnected'}</strong>
       </div>
 
@@ -41,41 +41,32 @@ function App() {
           if (!nameInput.trim()) return
           setName(nameInput)
         }}
-        style={{ display: 'flex', gap: 8, marginBottom: 12 }}
+        className='name-form'
       >
         <input
           type='text'
           value={nameInput}
           onChange={(e) => setNameInput(e.target.value)}
           placeholder='Set your username'
-          style={{ flex: 1, padding: '8px 10px', borderRadius: 6, border: '1px solid #ccc' }}
+          className='name-input'
         />
-        <button type='submit' disabled={!isConnected || !nameInput.trim()} style={{ padding: '8px 12px' }}>
+        <button type='submit' disabled={!isConnected || !nameInput.trim()} className='name-save-btn'>
           Save name
         </button>
       </form>
       <div
         ref={listRef}
-        style={{
-          border: '1px solid #ccc',
-          borderRadius: 8,
-          height: 360,
-          overflowY: 'auto',
-          padding: 12,
-          background: '#fafafa'
-        }}
+        className='messages'
       >
         {messages.map((m: ChatMessage, idx: number) => (
-          <div key={idx} style={{ marginBottom: 8 }}>
-            <div style={{ fontSize: 12, color: '#666' }}>{new Date(m.createdAt).toLocaleTimeString()}</div>
+          <div key={idx} className='message-item'>
+            <div className='timestamp'>{new Date(m.createdAt).toLocaleTimeString()}</div>
             <div>
               {m.type === 'system' ? (
-                <em style={{ color: '#666' }}>{m.text}</em>
+                <em className='system-text'>{m.text}</em>
               ) : (
                 <span>
-                  <strong style={{ color: m.userId && myUserId && m.userId === myUserId ? '#ff9800' : '#1976d2' }}>
-                    {m.username ?? m.userId ?? 'anon'}
-                  </strong>: {m.text}
+                  <strong className={m.userId && myUserId && m.userId === myUserId ? 'username username--self' : 'username'}>{m.username ?? m.userId ?? 'anon'}</strong>: {m.text}
                 </span>
               )}
             </div>
@@ -83,15 +74,15 @@ function App() {
         ))}
       </div>
 
-      <form onSubmit={onSubmit} style={{ display: 'flex', gap: 8, marginTop: 12 }}>
+      <form onSubmit={onSubmit} className='chat-form'>
         <input
           type='text'
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder='Type a message...'
-          style={{ flex: 1, padding: '10px 12px', borderRadius: 6, border: '1px solid #ccc' }}
+          className='chat-input'
         />
-        <button type='submit' disabled={!isConnected || !input.trim()} style={{ padding: '10px 16px' }}>
+        <button type='submit' disabled={!isConnected || !input.trim()} className='chat-send-btn'>
           Send
         </button>
       </form>
