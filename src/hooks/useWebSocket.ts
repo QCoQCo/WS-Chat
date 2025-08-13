@@ -71,14 +71,14 @@ export function useWebSocket({ url, autoReconnect = true }: UseWebSocketOptions)
         if (isChatMessage(raw)) {
           setMessages((prev) => [...prev, raw]);
         }
-      } catch {
-        // ignore malformed messages
+      } catch (error) {
+        console.error('Error parsing message:', error);
       }
     };
 
     ws.onclose = () => {
       setIsConnected(false);
-      if (autoReconnect) {
+      if (autoReconnect) {//exponential backoff
         const attempt = reconnectAttemptsRef.current + 1;
         reconnectAttemptsRef.current = attempt;
         const delay = Math.min(1000 * Math.pow(2, attempt), 10000);
@@ -91,7 +91,6 @@ export function useWebSocket({ url, autoReconnect = true }: UseWebSocketOptions)
 
     ws.onerror = () => {
       console.error('WebSocket error');
-      // Let onclose handle reconnect
     };
   }, [url, autoReconnect]);
 

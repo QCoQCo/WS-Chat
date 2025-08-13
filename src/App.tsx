@@ -6,7 +6,7 @@ import { useWebSocket, type ChatMessage } from './hooks/useWebSocket'
 function App() {
   const wsUrl = useMemo(() => {
     const host = window.location.hostname
-    const port = 3001
+    const port = 3001//server port
     return `ws://${host}:${port}`
   }, [])
 
